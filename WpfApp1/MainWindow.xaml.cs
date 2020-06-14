@@ -38,10 +38,6 @@ public partial class MainWindow : Window
     {
         BaseAddress = new Uri("https://earthquake.usgs.gov/fdsnws/event/1/"),
     };
-    HttpClient httpClientNasa = new HttpClient
-    {
-        BaseAddress = new Uri("https://api.nasa.gov/planetary/earth/"),
-    };
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -57,6 +53,7 @@ public partial class MainWindow : Window
 
 
             // Most of this is copied straight from microsoft, I am just tweaking it.
+
             // Create the parent FlowDocument...
             var flowDoc = new FlowDocument();
             // Create the Table...
@@ -153,20 +150,24 @@ public partial class MainWindow : Window
                 currentRow.Cells[0].FontWeight = FontWeights.Bold;
             }
 
-            //    table1.RowGroups[0].Rows.Add(new TableRow());
-            //    currentRow = table1.RowGroups[0].Rows[geoJsonInfo.features.Length + 2];
+            if(geoJsonInfo.features.Length > 10)
+            { 
+                table1.RowGroups[0].Rows.Add(new TableRow());
+                currentRow = table1.RowGroups[0].Rows[12];
 
-            //    // Global formatting for the footer row.
-            //    currentRow.Background = Brushes.Aquamarine;
-            //    currentRow.FontSize = 18;
-            //    currentRow.FontWeight = FontWeights.Normal;
+                // Global formatting for the footer row.
+                currentRow.Background = Brushes.Aquamarine;
+                currentRow.FontSize = 18;
+                currentRow.FontWeight = FontWeights.Normal;
 
-            //    // Add the header row with content,
-            //    currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Number of ResultsFound: " + geoJsonInfo.features.Length ))));
-            //    // and set the row to span all 6 columns.
-            //    currentRow.Cells[0].ColumnSpan = 6;
+                // Add the header row with content,
+                currentRow.Cells.Add(new TableCell(new Paragraph(new Run("This Table show only the First 10 results due to spacing." +
+                    "If are missing some earthquake you want to see, narrow your serach."))));
+                // and set the row to span all 6 columns.
+                currentRow.Cells[0].ColumnSpan = 6;
 
-            InfoTable.Document = flowDoc;
+             InfoTable.Document = flowDoc;
+            }
         }
         private void Image_HyperLink(object sender, RoutedEventArgs e)
         {
